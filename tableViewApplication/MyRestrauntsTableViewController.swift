@@ -16,6 +16,8 @@ class MyRestrauntsTableViewController: UITableViewController {
     var restaurantType = ["ресторан", "ресторан", "ресторан", "ресторан", "ресторан", "ресторан-клуб", "ресторан", "ресторан", "ресторанный комплекс", "ресторан", "ресторан", "ресторан", "ресторан", "ресторан", "ресторан", "ресторан", ]
     var restaurantLocation = ["Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа"]
     
+    var restaurantAlreadyVisited = [Bool](repeating: false, count: 15)
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //create alert controller
         let actionMenu = UIAlertController(title: nil, message: "What to do?", preferredStyle: UIAlertControllerStyle.actionSheet)
@@ -24,6 +26,38 @@ class MyRestrauntsTableViewController: UITableViewController {
         let cancelAction = UIAlertAction(title:"Cancel", style: .cancel, handler: nil)
         actionMenu.addAction(cancelAction)
         
+        
+        //действие "я тут был"
+        let iHaveBeenThereAction = UIAlertAction(title: "Я тут был", style: .default, handler: {(action: UIAlertAction!) -> Void in
+            let cell = tableView.cellForRow(at: indexPath)
+            //cell?.accessoryType = .checkmark
+            cell?.accessoryView = UIImageView(image: UIImage(named: "Icon-Small.png"))
+            self.restaurantAlreadyVisited[indexPath.row] = true
+        })
+        
+        //действие "я тут не был"
+        let iHaveNeverBeenThereAction = UIAlertAction(title: "Я тут не был", style: .default, handler: {(action: UIAlertAction!) -> Void in
+            let cell = tableView.cellForRow(at: indexPath)
+            //cell?.accessoryType = .none
+            cell?.accessoryView = nil
+            self.restaurantAlreadyVisited[indexPath.row] = false
+        })
+       
+        //создаем ячейку, проверем наличие .checkmark и добавляем соответсвующее действие
+        let cell = tableView.cellForRow(at: indexPath)
+        if cell?.accessoryView == nil {
+                actionMenu.addAction(iHaveBeenThereAction)
+        } else {
+                actionMenu.addAction(iHaveNeverBeenThereAction)
+        }
+       /* if cell?.accessoryType == .checkmark {
+             actionMenu.addAction(iHaveNeverBeenThereAction)
+        } else {
+             actionMenu.addAction(iHaveBeenThereAction)
+        }*/
+        
+        
+        //обработчик звонка
         let callActionHandler = {(action: UIAlertAction!) -> Void in
             print("CallActionHandler is on")
             let warningMessage = UIAlertController(title: "Сервис не доступен", message: "В данный момент вызов не может быть выполнен", preferredStyle: .alert)
@@ -37,7 +71,62 @@ class MyRestrauntsTableViewController: UITableViewController {
     
         //present controller
         self.present(actionMenu, animated: true, completion: nil)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+       
+        
     }
+//добавим действие удаления ячейки
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+//        self.restaurantAlreadyVisited.remove(at: indexPath.row)
+//        self.restaurantImages.remove(at: indexPath.row)
+//        self.restaurantNames.remove(at: indexPath.row)
+//        self.restaurantType.remove(at: indexPath.row)
+//        self.restaurantLocation.remove(at: indexPath.row)
+//        self.tableView.deleteRows(at: [indexPath], with: .fade)
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        //создаем кнопку share
+        let allShareAction = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "Поделится") {
+            (UITableViewRowAction, indexPath: IndexPath!) -> Void in
+            let allShareActionMenu = UIAlertController(title: nil, message: "Поделиться через", preferredStyle: .actionSheet)
+            
+            let emailShareAction = UIAlertAction(title: "Email", style: .default, handler: nil)
+            let facebookShareAction = UIAlertAction(title: "Facebook", style: .default, handler: nil)
+            let vkShareAction = UIAlertAction(title: "VK", style: .default, handler: nil)
+            let cancelShareAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
+            
+            allShareActionMenu.addAction(emailShareAction)
+            allShareActionMenu.addAction(facebookShareAction)
+            allShareActionMenu.addAction(vkShareAction)
+            allShareActionMenu.addAction(cancelShareAction)
+            
+            self.present(allShareActionMenu, animated: true, completion: nil)
+            
+        }
+        
+        //создаем кнопку delete
+        let deleteAction = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "удалить") {
+            (UITableViewRowAction, indexPath: IndexPath!) -> Void in
+            self.restaurantAlreadyVisited.remove(at: indexPath.row)
+            self.restaurantImages.remove(at: indexPath.row)
+            self.restaurantNames.remove(at: indexPath.row)
+            self.restaurantType.remove(at: indexPath.row)
+            self.restaurantLocation.remove(at: indexPath.row)
+            
+            self.tableView.deleteRows(at: [indexPath], with: .fade)
+            
+        }
+        
+        allShareAction.backgroundColor = UIColor(red: 184/255, green: 226/255, blue: 181/255, alpha:  1.0)
+        deleteAction.backgroundColor = UIColor.red
+            
+        return [deleteAction, allShareAction]
+    }
+    
 
 
     override func viewDidLoad() {
@@ -79,9 +168,12 @@ class MyRestrauntsTableViewController: UITableViewController {
         cell.thumbnailImageView.image = UIImage(named: restaurantImages[indexPath.row])
         cell.thumbnailImageView.layer.cornerRadius = cell.thumbnailImageView.frame.size.height/2
         cell.thumbnailImageView.clipsToBounds = true
-
-        // Configure the cell...
-
+        
+     // cell.accessoryType = restaurantAlreadyVisited[indexPath.row] ? .checkmark : .none
+     // cell.tintColor = UIColor.red
+        cell.accessoryView = UIImageView(image: UIImage(named: "Icon-Small.png"))
+        cell.accessoryView = restaurantAlreadyVisited[indexPath.row] ? UIImageView(image: UIImage(named: "Icon-Small.png")) : nil
+    
         return cell
     }
     
