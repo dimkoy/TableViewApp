@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="72P-Ic-Es3">
-    <device id="retina4_7" orientation="portrait">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="lUc-GU-jdR">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -9,20 +9,20 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--My Restraunts Table View Controller-->
+        <!--Tittle-->
         <scene sceneID="qhh-8M-l5R">
             <objects>
                 <tableViewController storyboardIdentifier="Cell" id="72P-Ic-Es3" customClass="MyRestrauntsTableViewController" customModule="tableViewApplication" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="85" sectionHeaderHeight="28" sectionFooterHeight="28" id="0mv-pr-0Oc">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="85" id="N73-Zj-Sre" customClass="MyRestrauntTableViewCell" customModule="tableViewApplication" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="85"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="85"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="N73-Zj-Sre" id="ig8-Fe-7Y6">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="84"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9KK-UM-T1t">
@@ -57,6 +57,7 @@
                                     <outlet property="nameLabel" destination="53p-VU-d1Q" id="eXt-QE-khu"/>
                                     <outlet property="thumbnailImageView" destination="9KK-UM-T1t" id="kmx-i0-Rz9"/>
                                     <outlet property="typeLabel" destination="Pby-GJ-fij" id="2ea-39-9Wt"/>
+                                    <segue destination="Lfb-9U-OJS" kind="push" identifier="showDetailsSegue" id="vK5-wG-fAD"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -65,15 +66,62 @@
                             <outlet property="delegate" destination="72P-Ic-Es3" id="F6d-dJ-zvT"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Tittle" id="13b-z9-suW"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JCq-nQ-20n" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="48.5" y="177.5"/>
+            <point key="canvasLocation" x="488" y="177"/>
+        </scene>
+        <!--Details View Controller-->
+        <scene sceneID="WUm-VS-ycA">
+            <objects>
+                <viewController id="Lfb-9U-OJS" customClass="DetailsViewController" customModule="tableViewApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="LDQ-jx-Ypd"/>
+                        <viewControllerLayoutGuide type="bottom" id="VMT-c3-fqZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ldK-MM-p3d">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e5C-m6-sMb">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="tIU-V1-kHL"/>
+                    <connections>
+                        <outlet property="restaurantImageView" destination="e5C-m6-sMb" id="ieo-Hq-wqW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lxl-JK-PrP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="969" y="177"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="TRZ-YA-cb3">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="lUc-GU-jdR" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="y5g-q6-9Nv">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="72P-Ic-Es3" kind="relationship" relationship="rootViewController" id="45j-er-DEq"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2QR-th-gGi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="48" y="177"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
+        <simulatedScreenMetrics key="destination" type="retina4_0.fullscreen"/>
     </simulatedMetricsContainer>
 </document>

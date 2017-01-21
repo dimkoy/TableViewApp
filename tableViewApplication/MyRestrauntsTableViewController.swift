@@ -10,15 +10,28 @@ import UIKit
 
 class MyRestrauntsTableViewController: UITableViewController {
     
-    var restaurantNames = ["Ogonek Grill&Bar", "Ely", "Bonsai", "Dastarhan", "IndiaChina", "X.O", "Balkan grill", "Respublica", "Speak Easy", "Morris Pub", "Tasty stories", "Classic", "Love&Life", "Shock", "Bochka"]
+    var myRestaurants: [Restaurant] = [Restaurant(name: "Ogonek Grill&Bar", type: "ресторан", location: "Уфа", image: "ogonek.jpg", isVisited: false),
+         Restaurant(name: "Ely", type: "ресторан", location: "Уфа", image: "elu.jpg", isVisited: false),
+         Restaurant(name: "Bonsai", type: "ресторан", location: "Уфа", image: "bonsai.jpg", isVisited: false),
+         Restaurant(name: "Dastarhan", type: "ресторан", location: "Уфа", image: "dastarhan.jpg", isVisited: false),
+         Restaurant(name: "IndiaChina", type: "ресторан", location: "Уфа", image: "indokitay.jpg", isVisited: false),
+         Restaurant(name: "X.O", type: "ресторан-клуб", location: "Уфа", image: "x.o.jpg", isVisited: false),
+         Restaurant(name: "Balkan grill", type: "ресторан", location: "Уфа", image: "balkan.jpg", isVisited: false),
+         Restaurant(name: "Respublica", type: "ресторан", location: "Уфа", image: "respublika.jpg", isVisited: false),
+         Restaurant(name: "Speak Easy", type: "ресторанный комплекс", location: "Уфа", image: "speakeasy.jpg", isVisited: false),
+         Restaurant(name: "Morris Pub", type: "ресторан", location: "Уфа", image: "morris.jpg", isVisited: false),
+         Restaurant(name: "Tasty stories", type: "ресторан", location: "Уфа", image: "istorii.jpg", isVisited: false),
+         Restaurant(name: "Classic", type: "ресторан", location: "Уфа", image: "klassik.jpg", isVisited: false),
+         Restaurant(name: "Love&Life", type: "ресторан", location: "Уфа", image: "love.jpg", isVisited: false),
+         Restaurant(name: "Shock", type: "ресторан", location: "Уфа", image: "shok.jpg", isVisited: false),
+         Restaurant(name: "Bochka", type: "ресторан", location: "Уфа", image: "bochka.jpg", isVisited: false),
+                                       ]
     
-    var restaurantImages = ["ogonek.jpg", "elu.jpg", "bonsai.jpg", "dastarhan.jpg", "indokitay.jpg", "x.o.jpg", "balkan.jpg", "respublika.jpg", "speakeasy.jpg", "morris.jpg", "istorii.jpg", "klassik.jpg", "love.jpg", "shok.jpg", "bochka.jpg"]
-    var restaurantType = ["ресторан", "ресторан", "ресторан", "ресторан", "ресторан", "ресторан-клуб", "ресторан", "ресторан", "ресторанный комплекс", "ресторан", "ресторан", "ресторан", "ресторан", "ресторан", "ресторан", "ресторан", ]
-    var restaurantLocation = ["Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа", "Уфа"]
-    
+
+
     var restaurantAlreadyVisited = [Bool](repeating: false, count: 15)
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+/*    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //create alert controller
         let actionMenu = UIAlertController(title: nil, message: "What to do?", preferredStyle: UIAlertControllerStyle.actionSheet)
         
@@ -77,6 +90,7 @@ class MyRestrauntsTableViewController: UITableViewController {
        
         
     }
+ */
 //добавим действие удаления ячейки
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -111,12 +125,8 @@ class MyRestrauntsTableViewController: UITableViewController {
         //создаем кнопку delete
         let deleteAction = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "удалить") {
             (UITableViewRowAction, indexPath: IndexPath!) -> Void in
-            self.restaurantAlreadyVisited.remove(at: indexPath.row)
-            self.restaurantImages.remove(at: indexPath.row)
-            self.restaurantNames.remove(at: indexPath.row)
-            self.restaurantType.remove(at: indexPath.row)
-            self.restaurantLocation.remove(at: indexPath.row)
             
+            self.myRestaurants.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .fade)
             
         }
@@ -153,7 +163,7 @@ class MyRestrauntsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return restaurantNames.count
+        return myRestaurants.count
     }
 
     
@@ -162,17 +172,17 @@ class MyRestrauntsTableViewController: UITableViewController {
         let cellIdentifier = "Cell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! MyRestrauntTableViewCell
         
-        cell.nameLabel.text = restaurantNames[indexPath.row]
-        cell.locationLabel.text = restaurantLocation[indexPath.row]
-        cell.typeLabel.text = restaurantType[indexPath.row]
-        cell.thumbnailImageView.image = UIImage(named: restaurantImages[indexPath.row])
+        cell.nameLabel.text = myRestaurants[indexPath.row].name
+        cell.locationLabel.text = myRestaurants[indexPath.row].location
+        cell.typeLabel.text = myRestaurants[indexPath.row].type
+        cell.thumbnailImageView.image = UIImage(named: myRestaurants[indexPath.row].image)
         cell.thumbnailImageView.layer.cornerRadius = cell.thumbnailImageView.frame.size.height/2
         cell.thumbnailImageView.clipsToBounds = true
         
      // cell.accessoryType = restaurantAlreadyVisited[indexPath.row] ? .checkmark : .none
      // cell.tintColor = UIColor.red
-        cell.accessoryView = UIImageView(image: UIImage(named: "Icon-Small.png"))
-        cell.accessoryView = restaurantAlreadyVisited[indexPath.row] ? UIImageView(image: UIImage(named: "Icon-Small.png")) : nil
+      //  cell.accessoryView = UIImageView(image: UIImage(named: "Icon-Small.png"))
+      //  cell.accessoryView = restaurantAlreadyVisited[indexPath.row] ? UIImageView(image: UIImage(named: "Icon-Small.png")) : nil
     
         return cell
     }
@@ -213,14 +223,20 @@ class MyRestrauntsTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+        
+        if segue.identifier == "showDetailsSegue" {
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                let destinationVC = segue.destination as! DetailsViewController
+                destinationVC.restaurantImage = self.myRestaurants[indexPath.row].image
+            }
+        }
+        
+     }
+    
 
 }
