@@ -10,7 +10,10 @@ import UIKit
 
 class MyRestrauntsTableViewController: UITableViewController {
     
-    var myRestaurants: [Restaurant] = [Restaurant(name: "Ogonek Grill&Bar", type: "ресторан", location: "Уфа", image: "ogonek.jpg", isVisited: false),
+    
+    
+    //создаем экземпляр класса Restaurant
+    var myRestaurants: [Restaurant] = [Restaurant(name: "Ogonek Grill&Bar", type: "ресторан", location: "Уфа, ул. Хадии Давлетшиной 21", image: "ogonek.jpg", isVisited: false),
          Restaurant(name: "Ely", type: "ресторан", location: "Уфа", image: "elu.jpg", isVisited: false),
          Restaurant(name: "Bonsai", type: "ресторан", location: "Уфа", image: "bonsai.jpg", isVisited: false),
          Restaurant(name: "Dastarhan", type: "ресторан", location: "Уфа", image: "dastarhan.jpg", isVisited: false),
@@ -94,12 +97,7 @@ class MyRestrauntsTableViewController: UITableViewController {
 //добавим действие удаления ячейки
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//        self.restaurantAlreadyVisited.remove(at: indexPath.row)
-//        self.restaurantImages.remove(at: indexPath.row)
-//        self.restaurantNames.remove(at: indexPath.row)
-//        self.restaurantType.remove(at: indexPath.row)
-//        self.restaurantLocation.remove(at: indexPath.row)
-//        self.tableView.deleteRows(at: [indexPath], with: .fade)
+
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
@@ -142,11 +140,15 @@ class MyRestrauntsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.navigationController?.hidesBarsOnSwipe = true
+        
+        self.tableView.estimatedRowHeight = 85
+        self.tableView.rowHeight = UITableViewAutomaticDimension
     }
 
     override func didReceiveMemoryWarning() {
@@ -232,7 +234,7 @@ class MyRestrauntsTableViewController: UITableViewController {
         if segue.identifier == "showDetailsSegue" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let destinationVC = segue.destination as! DetailsViewController
-                destinationVC.restaurantImage = self.myRestaurants[indexPath.row].image
+                destinationVC.restaurant = self.myRestaurants[indexPath.row]
             }
         }
         

@@ -8,21 +8,81 @@
 
 import UIKit
 
-class DetailsViewController: UIViewController {
+class DetailsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet var restaurantImageView: UIImageView!
-    var restaurantImage: String!
+    @IBOutlet var tableView: UITableView!
+    @IBAction func close(segue: UIStoryboardSegue) {
+        
+    }
+    
+    var restaurant: Restaurant!
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        restaurantImageView.image = UIImage(named: restaurantImage)
-        // Do any additional setup after loading the view.
+        
+        self.restaurantImageView.image = UIImage(named: restaurant.image)
+        self.tableView.backgroundColor = UIColor(red: 250/255, green: 212/255, blue: 255/255, alpha: 1.0)
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        self.tableView.separatorColor = UIColor(red: 248/255, green: 182/255, blue: 255/255, alpha: 1.0)
+        title = restaurant.name
+        self.tableView.estimatedRowHeight = 44
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.navigationController?.hidesBarsOnSwipe = false
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 4
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! DetailsTableViewCell
+        
+        //отображение информации в ячейках 
+        if indexPath.row == 0 {
+            cell.keyLabel.text = "Название"
+            cell.valueLabel.text = restaurant.name
+            
+        }
+        if indexPath.row == 1 {
+            cell.keyLabel.text = "Тип"
+            
+        }
+        
+        switch indexPath.row {
+        case 0:
+            cell.keyLabel.text = "Название"
+            cell.valueLabel.text = restaurant.name
+        case 1:
+            cell.keyLabel.text = "Тип"
+            cell.valueLabel.text = restaurant.type
+        case 2:
+            cell.keyLabel.text = "Расположение"
+            cell.valueLabel.text = restaurant.location
+        case 3:
+            cell.keyLabel.text = "Был(а) там"
+            cell.valueLabel.text = restaurant.isVisited ? "Да": "Нет"
+        default:
+            cell.keyLabel.text = ""
+            cell.valueLabel.text = ""
+        }
+        
+        cell.backgroundColor = UIColor.clear
+        
+        return cell
     }
     
 
