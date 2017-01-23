@@ -13,7 +13,9 @@ class MyRestrauntsTableViewController: UITableViewController {
     
     
     //создаем экземпляр класса Restaurant
-    var myRestaurants: [Restaurant] = [Restaurant(name: "Ogonek Grill&Bar", type: "ресторан", location: "Уфа, ул. Хадии Давлетшиной 21", image: "ogonek.jpg", isVisited: false),
+    var myRestaurants: [Restaurant] = []
+    
+    /* var myRestaurants: [Restaurant] = [Restaurant(name: "Ogonek Grill&Bar", type: "ресторан", location: "Уфа, ул. Хадии Давлетшиной 21", image: "ogonek.jpg", isVisited: false),
          Restaurant(name: "Ely", type: "ресторан", location: "Уфа", image: "elu.jpg", isVisited: false),
          Restaurant(name: "Bonsai", type: "ресторан", location: "Уфа", image: "bonsai.jpg", isVisited: false),
          Restaurant(name: "Dastarhan", type: "ресторан", location: "Уфа", image: "dastarhan.jpg", isVisited: false),
@@ -29,10 +31,12 @@ class MyRestrauntsTableViewController: UITableViewController {
          Restaurant(name: "Shock", type: "ресторан", location: "Уфа", image: "shok.jpg", isVisited: false),
          Restaurant(name: "Bochka", type: "ресторан", location: "Уфа", image: "bochka.jpg", isVisited: false),
                                        ]
-    
+    */
 
 
-    var restaurantAlreadyVisited = [Bool](repeating: false, count: 15)
+    @IBAction func unwindBackToHomeScreen(segue: UIStoryboardSegue) {
+        
+    }
     
 /*    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //create alert controller
@@ -177,9 +181,10 @@ class MyRestrauntsTableViewController: UITableViewController {
         cell.nameLabel.text = myRestaurants[indexPath.row].name
         cell.locationLabel.text = myRestaurants[indexPath.row].location
         cell.typeLabel.text = myRestaurants[indexPath.row].type
-        cell.thumbnailImageView.image = UIImage(named: myRestaurants[indexPath.row].image)
+        cell.thumbnailImageView.image = UIImage(data: myRestaurants[indexPath.row].image as Data)
         cell.thumbnailImageView.layer.cornerRadius = cell.thumbnailImageView.frame.size.height/2
         cell.thumbnailImageView.clipsToBounds = true
+        cell.checkImageView.isHidden = !myRestaurants[indexPath.row].isVisited.boolValue
         
      // cell.accessoryType = restaurantAlreadyVisited[indexPath.row] ? .checkmark : .none
      // cell.tintColor = UIColor.red

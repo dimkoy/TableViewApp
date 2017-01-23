@@ -22,7 +22,7 @@ class DetailsViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.restaurantImageView.image = UIImage(named: restaurant.image)
+        self.restaurantImageView.image = UIImage(data: restaurant.image as Data)
         self.tableView.backgroundColor = UIColor(red: 250/255, green: 212/255, blue: 255/255, alpha: 1.0)
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         self.tableView.separatorColor = UIColor(red: 248/255, green: 182/255, blue: 255/255, alpha: 1.0)
@@ -30,6 +30,7 @@ class DetailsViewController: UIViewController, UITableViewDataSource, UITableVie
         self.tableView.estimatedRowHeight = 44
         self.tableView.rowHeight = UITableViewAutomaticDimension
         
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
         
     }
     
@@ -74,7 +75,7 @@ class DetailsViewController: UIViewController, UITableViewDataSource, UITableVie
             cell.valueLabel.text = restaurant.location
         case 3:
             cell.keyLabel.text = "Был(а) там"
-            cell.valueLabel.text = restaurant.isVisited ? "Да": "Нет"
+            cell.valueLabel.text = restaurant.isVisited.boolValue ? "Да": "Нет"
         default:
             cell.keyLabel.text = ""
             cell.valueLabel.text = ""
@@ -85,6 +86,20 @@ class DetailsViewController: UIViewController, UITableViewDataSource, UITableVie
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 2 {
+            self.performSegue(withIdentifier: "showTheMap", sender: nil)        }
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showTheMap" {
+            let destinationVC = segue.destination as! MapRestaurantLocationViewController
+            destinationVC.restaurant = restaurant
+        }
+        
+    }
 
     /*
     // MARK: - Navigation
